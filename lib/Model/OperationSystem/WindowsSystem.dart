@@ -2,15 +2,6 @@ import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'dart:io';
 
 class WindowsSystem extends OperationSystem {
-  String currentPath = "";
-
-  @override
-  installationFlutter() {
-    print("Baixando o Flutter...");
-    ProcessResult downloadFlutter = Process.runSync('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git']);
-    this.checkError(downloadFlutter, "Download do Flutter concluído.");
-    this.currentPath = Directory.current.path;
-  }
 
   @override
   setVariableEnvironment(){
@@ -22,10 +13,5 @@ class WindowsSystem extends OperationSystem {
     // Salvando a variável do Flutter no User Environment
     ProcessResult resultVar = Process.runSync('setx', ['Path', '%Path%;$currentPath\\flutter\\bin'], runInShell: false);
     this.checkError(resultVar, "Variável configurada com sucesso.");
-  }
-
-  @override
-  clearFlutterInstallationFiles(){
-
   }
 }

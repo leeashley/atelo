@@ -2,12 +2,16 @@ import 'dart:io';
 import 'package:console/console.dart';
 
 abstract class OperationSystem {
-
-  installationFlutter();
+  String currentPath;
 
   setVariableEnvironment();
-
-  clearFlutterInstallationFiles();
+  
+  installationFlutter(){
+    print("Baixando o Flutter...");
+    ProcessResult downloadFlutter = Process.runSync('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true);
+    this.checkError(downloadFlutter, "Download do Flutter concluído.");
+    this.currentPath = Directory.current.path;
+  }
 
   checkError(ProcessResult result, [String successMessage]){
     if(result.stderr == null || result.exitCode == 0){
