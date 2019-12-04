@@ -4,11 +4,11 @@ import 'dart:io';
 class WindowsSystem extends OperationSystem {
   String currentPath = "";
 
-  downloadFlutter() {
+  installationFlutter() {
     print("Baixando o Flutter...");
     ProcessResult downloadFlutter = Process.runSync('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git']);
     this.checkError(downloadFlutter, "Download do Flutter concluído.");
-    currentPath = Directory.current.path;
+    this.currentPath = Directory.current.path;
   }
 
   setVariableEnvironment(){
@@ -20,5 +20,9 @@ class WindowsSystem extends OperationSystem {
     // Salvando a variável do Flutter no User Environment
     ProcessResult resultVar = Process.runSync('setx', ['Path', '%Path%;$currentPath\\flutter\\bin'], runInShell: false);
     this.checkError(resultVar, "Variável configurada com sucesso.");
+  }
+
+  clearFlutterInstallationFiles(){
+
   }
 }

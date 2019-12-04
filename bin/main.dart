@@ -5,19 +5,22 @@ import 'package:console/console.dart';
 
 main(List<String> arguments) {
   Console.init();
-  Console.setBackgroundColor(0);
+  Console.setBackgroundColor(0, bright: true);
   Console.setTextColor(2, bright: true);
   print('- ATELO INICIADO -');
   OperationSystemManager systemManager = OperationSystemManager();
   try {
     OperationSystem operationSystem = systemManager.getCurrentOperationSystem();
     Console.setTextColor(3, bright: false);
-    operationSystem.downloadFlutter();
-    Console.setTextColor(3, bright: false);
-    operationSystem.setVariableEnvironment();
-    Console.setTextColor(6);
-    print("Flutter instalado e configurado. Pressione ENTER para encerrar.");
-    stdin.readLineSync();
+    operationSystem.installationFlutter().then((noReturn) {
+      Console.setTextColor(3, bright: false);
+      operationSystem.setVariableEnvironment();
+      Console.setTextColor(6);
+      print("Flutter instalado e configurado. Pressione ENTER para encerrar.");
+      Console.resetAll();
+      stdin.readLineSync();
+    });
+   
   } catch (err) {
     Console.setTextColor(1);
     if (err.toString().contains("Could not resolve host")){
@@ -25,6 +28,7 @@ main(List<String> arguments) {
     } else {
       stderr.writeln("Ocorreu um erro:\n$err");
     }
+    Console.resetAll();
     stdin.readLineSync();
   }
 }
