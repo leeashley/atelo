@@ -12,18 +12,16 @@ main(List<String> arguments) {
   try {
     OperationSystem operationSystem = systemManager.getCurrentOperationSystem();
     Console.setTextColor(3, bright: false);
-    operationSystem.installationFlutter().then((noReturn) {
-      Console.setTextColor(3, bright: false);
-      operationSystem.setVariableEnvironment();
-      Console.setTextColor(6);
-      print("Flutter instalado e configurado. Pressione ENTER para encerrar.");
-      Console.resetAll();
-      stdin.readLineSync();
-    });
-   
+    operationSystem.installationFlutter();
+    Console.setTextColor(3, bright: false);
+    operationSystem.setVariableEnvironment();
+    Console.setTextColor(6);
+    print("Flutter instalado e configurado. Pressione ENTER para encerrar.");
+    Console.resetAll();
+    stdin.readLineSync();
   } catch (err) {
     Console.setTextColor(1);
-    if (err.toString().contains("Could not resolve host")){
+    if (err.toString().contains("Could not resolve host")) {
       stderr.writeln("Erro de conexão, por favor verifique sua internet:\n$err");
     } else {
       stderr.writeln("Ocorreu um erro:\n$err");

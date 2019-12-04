@@ -6,6 +6,7 @@ import 'OperationSystem.dart';
 class MacSystem extends OperationSystem {
   String currentPath = "";
 
+  @override
   installationFlutter() async {
     print("Baixando o Flutter...");
     await run('curl', ['https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_v1.9.1+hotfix.6-stable.zip', '--output', 'flutter.zip'], verbose: true, runInShell: true).then((result) {
@@ -18,12 +19,14 @@ class MacSystem extends OperationSystem {
     this.currentPath = Directory.current.path;
   }
 
-  setVariableEnvironment() async {
+  @override
+  setVariableEnvironment() {
     print("Configurando variável de ambiente.");
     ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.bash_profile"]);
     this.checkError(result, "Variável configurada.");
   }
 
+  @override
   clearFlutterInstallationFiles(){
     ProcessResult result = Process.runSync('bash', ['-c', 'rm -f flutter.zip']);
     this.checkError(result);
