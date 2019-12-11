@@ -50,7 +50,6 @@ class Atelo {
   checkNewVersion(OperationSystem operationSystem) async {
     AutoUpdate autoUpdate = AutoUpdate();
     bool newVersion = await autoUpdate.checkUpdate(operationSystem.name);
-    //print("Retorno do update: " + newVersion.toString());
     switch (newVersion) {
     case true:
       MainMenu mainMenu = MainMenu();

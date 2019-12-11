@@ -43,7 +43,7 @@ class AutoUpdate {
   }
 
   updateAtelo(OperationSystem operationSystem, String ateloFile){
-    //print("Atualizando o Atelo... " + urlForNewVersion + "Path destino: " + operationSystem.currentPath);
+    print("Atualizando o Atelo... ");
     final String separator = Platform.pathSeparator;
     final String ateloZip = "novo_atelo.zip";
     Process.runSync('curl', ['-o', "${operationSystem.currentPath}${separator}${ateloZip}",'$urlForNewVersion'], runInShell: true);
