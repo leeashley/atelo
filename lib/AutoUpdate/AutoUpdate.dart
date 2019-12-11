@@ -22,10 +22,10 @@ class AutoUpdate {
   checkUpdate(String operationSystemName) async {
     print("- Checando se existe uma nova versão do Atelo.");
     Response response = await http.get('https://atelo.unicobit.com/$operationSystemName\_version.json');
-    print("RESPONSE DA URL PESQUISADA: " + response.statusCode.toString());
     if(response.statusCode != 200){
       Console.setTextColor(1, bright: true);
       print("Não foi possível verificar. Códido do response: ${response.statusCode}.");
+      Console.setTextColor(3, bright: false);
       return false;
     }
     Map<String, dynamic> ateloVersion = jsonDecode(response.body);
@@ -44,8 +44,8 @@ class AutoUpdate {
 
   updateAtelo(OperationSystem operationSystem, String ateloFile){
     //print("Atualizando o Atelo... " + urlForNewVersion + "Path destino: " + operationSystem.currentPath);
-    String separator = Platform.pathSeparator;
-    final String ateloZip = "new_atelo.zip";
+    final String separator = Platform.pathSeparator;
+    final String ateloZip = "novo_atelo.zip";
     Process.runSync('curl', ['-o', "${operationSystem.currentPath}${separator}${ateloZip}",'$urlForNewVersion'], runInShell: true);
     if(operationSystem.name == "windows"){
       print("Extraindo atelo no windows.");
@@ -55,9 +55,10 @@ class AutoUpdate {
       print("Atelo atualizado!\nÉ recomendado encerrar e abrir o novo_${ateloFile}, ele está no mesmo diretório que o executável atual.");
     } else {
       print("Extraindo atelo no unix.");
-      Process.runSync('unzip', ['-o', '${operationSystem.currentPath}/${ateloFile}.zip', '-d', '${operationSystem.currentPath}'], runInShell: false);
+      Process.runSync('unzip', ['-o', '${operationSystem.currentPath}${separator}${ateloZip}'], runInShell: false);
+      Process.runSync('rm', ['-f', '${operationSystem.currentPath}${separator}${ateloZip}'], runInShell: false);
+      Process.runSync('mv', ['${operationSystem.currentPath}${separator}atelo_${operationSystem.name}', '${operationSystem.currentPath}${separator}${ateloFile}']);
       print("Atelo atualizado!\nÉ recomendado encerrar essa sessão e executar novamente o ${ateloFile}");
     }
   }
-
 }
