@@ -11,7 +11,7 @@ class Atelo {
   coreFunction(OperationSystem operationSystem) async {
     Console.init();
     Console.setTextColor(2, bright: true);
-    print('- ATELO INICIADO -');
+    print('- ATELO INICIADO - ' + AutoUpdate().currentVersion.toString());
     MainMenu mainMenu = MainMenu();
     
     Console.setTextColor(3, bright: false);
