@@ -2,6 +2,7 @@ import 'dart:io';
 import 'OperationSystem.dart';
 
 class MacSystem extends OperationSystem {
+  final String name = "macos";
 
   @override
   setVariableEnvironment() {

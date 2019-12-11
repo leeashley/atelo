@@ -5,7 +5,6 @@ import 'package:atelo/Model/OperationSystem/WindowsSystem.dart';
 import 'package:console/console.dart';
 
 import '../../Model/OperationSystem/LinuxSystem.dart';
-import '../../Model/OperationSystem/LinuxSystem.dart';
 
 class SystemOperationFactory {
   
