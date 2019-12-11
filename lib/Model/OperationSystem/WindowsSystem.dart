@@ -2,6 +2,7 @@ import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'dart:io';
 
 class WindowsSystem extends OperationSystem {
+  String currentPath = Directory.current.path;
   final String name = "windows";
 
   @override

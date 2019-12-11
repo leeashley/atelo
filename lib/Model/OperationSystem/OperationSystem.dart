@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:console/console.dart';
 
 abstract class OperationSystem {
-  final String currentPath = Platform.script.toString().replaceFirst("file://", "").replaceAll(RegExp(r'/([^/]+)$'), '');
+  String currentPath;
   String name;
 
   setVariableEnvironment();
