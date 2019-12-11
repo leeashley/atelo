@@ -3,12 +3,12 @@ import "package:console/console.dart";
 class MainMenu {
   
   String mainChoice(){
-    var chooser = Chooser<String>(["Instalar o Flutter (configurando a variável de ambiente).", "Verificar atualização do Atelo.", "Sair."], message: "Selecione uma opção:");
+    var chooser = Chooser<String>(["Instalar o Flutter (configurando a variável de ambiente).", "Verificar atualização do Atelo.", "Limpar terminal.", "Sair."], message: "Selecione uma opção: ");
     return chooser.chooseSync();
   }
 
   bool choiceCloseAtelo(){
-    var chooser = Chooser<String>(["Voltar para o Menu Principal.", "Sair."], message: "Selecione uma opção:");
+    var chooser = Chooser<String>(["Voltar para o Menu Principal.", "Sair."], message: "Selecione uma opção: ");
     var answer = chooser.chooseSync();
     switch (answer) {
       case "Voltar para o Menu Principal.":
@@ -22,7 +22,7 @@ class MainMenu {
   }
 
   bool choiceUpdateAtelo(){
-    var chooser = Chooser<String>(["SIM", "NÃO"], message: "Deseja atualizar o Atelo?");
+    var chooser = Chooser<String>(["SIM", "NÃO"], message: "Deseja atualizar o Atelo? ");
     var answer = chooser.chooseSync();
     switch (answer) {
       case "SIM":

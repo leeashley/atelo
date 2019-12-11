@@ -10,7 +10,6 @@ class Atelo {
 
   coreFunction(OperationSystem operationSystem) async {
     Console.init();
-    Console.setBackgroundColor(0, bright: true);
     Console.setTextColor(2, bright: true);
     print('- ATELO INICIADO -');
     MainMenu mainMenu = MainMenu();
@@ -34,6 +33,10 @@ class Atelo {
         bool close = mainMenu.choiceCloseAtelo();
         Console.resetAll();
         close ? null : coreFunction(operationSystem);
+        break;
+      case "Limpar terminal.":
+        print(Process.runSync("clear", [], runInShell: false).stdout);
+        coreFunction(operationSystem);
         break;
       case "Sair.":
         break;
