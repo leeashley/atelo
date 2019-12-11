@@ -35,7 +35,7 @@ class Atelo {
         close ? null : coreFunction(operationSystem);
         break;
       case "Limpar terminal.":
-        print(Process.runSync("clear", [], runInShell: false).stdout);
+        print("\x1B[2J\x1B[0;0H");
         coreFunction(operationSystem);
         break;
       case "Sair.":
