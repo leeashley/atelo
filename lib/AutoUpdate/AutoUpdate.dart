@@ -20,9 +20,14 @@ class AutoUpdate {
 
   // METHODS
   checkUpdate(String operationSystemName) async {
-    print("Checando se existe uma versão atualizada.");
+    print("- Checando se existe uma nova versão do Atelo.");
     Response response = await http.get('https://atelo.unicobit.com/$operationSystemName\_version.json');
-    //print("URL PESQUISADA: " + 'https://atelo.unicobit.com/$operationSystemName\_version.json');
+    print("RESPONSE DA URL PESQUISADA: " + response.statusCode.toString());
+    if(response.statusCode != 200){
+      Console.setTextColor(1, bright: true);
+      print("Não foi possível verificar. Códido do response: ${response.statusCode}.");
+      return false;
+    }
     Map<String, dynamic> ateloVersion = jsonDecode(response.body);
     this.urlForNewVersion = ateloVersion['URL'];
     final Version lastVersion = Version.parse(ateloVersion['version']);
@@ -38,9 +43,9 @@ class AutoUpdate {
   }
 
   updateAtelo(OperationSystem operationSystem){
-    print("Atualizando o Atelo... " + urlForNewVersion);
+    print("Atualizando o Atelo... " + urlForNewVersion + "Path destino: " + operationSystem.currentPath);
 
-    ProcessResult downloadAtelo = Process.runSync('curl', ['-C', '-', '-o', "${operationSystem.currentPath}/atelo.zip",'$urlForNewVersion'], runInShell: true);
+    ProcessResult downloadAtelo = Process.runSync('curl', ['-o', "${operationSystem.currentPath}/atelo.zip",'$urlForNewVersion'], runInShell: true);
     if(operationSystem.name == "windows"){
       print("Extraindo atelo no windows.");
       Process.runSync('tar', ['-xvf', '${operationSystem.currentPath}/atelo.zip', '-C', '${operationSystem.currentPath}'], runInShell: false);
