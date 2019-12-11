@@ -42,18 +42,22 @@ class AutoUpdate {
     }
   }
 
-  updateAtelo(OperationSystem operationSystem){
-    print("Atualizando o Atelo... " + urlForNewVersion + "Path destino: " + operationSystem.currentPath);
-
-    ProcessResult downloadAtelo = Process.runSync('curl', ['-o', "${operationSystem.currentPath}/atelo.zip",'$urlForNewVersion'], runInShell: true);
+  updateAtelo(OperationSystem operationSystem, String ateloFile){
+    //print("Atualizando o Atelo... " + urlForNewVersion + "Path destino: " + operationSystem.currentPath);
+    String separator = Platform.pathSeparator;
+    final String ateloZip = "new_atelo.zip";
+    Process.runSync('curl', ['-o', "${operationSystem.currentPath}${separator}${ateloZip}",'$urlForNewVersion'], runInShell: true);
     if(operationSystem.name == "windows"){
       print("Extraindo atelo no windows.");
-      Process.runSync('tar', ['-xvf', '${operationSystem.currentPath}/atelo.zip', '-C', '${operationSystem.currentPath}'], runInShell: false);
+      Process.runSync('tar', ['-xvf', '${operationSystem.currentPath}${separator}${ateloZip}', '-C', '${operationSystem.currentPath}'], runInShell: false);
+      Process.runSync('del', ['/f','${operationSystem.currentPath}${separator}${ateloZip}'], runInShell: true);
+      Process.runSync('rename', ['${operationSystem.currentPath}${separator}atelo_win.exe', 'novo_${ateloFile}'], runInShell: true);
+      print("Atelo atualizado!\nÉ recomendado encerrar e abrir o novo_${ateloFile}, ele está no mesmo diretório que o executável atual.");
     } else {
       print("Extraindo atelo no unix.");
-      Process.runSync('unzip', ['-o', '${operationSystem.currentPath}/atelo.zip', '-d', '${operationSystem.currentPath}'], runInShell: false);
+      Process.runSync('unzip', ['-o', '${operationSystem.currentPath}/${ateloFile}.zip', '-d', '${operationSystem.currentPath}'], runInShell: false);
+      print("Atelo atualizado!\nÉ recomendado encerrar essa sessão e executar novamente o ${ateloFile}");
     }
-    print("Download do atelo, STDOUT " + downloadAtelo.stdout + "ERRO: " + downloadAtelo.stderr);
   }
 
 }
