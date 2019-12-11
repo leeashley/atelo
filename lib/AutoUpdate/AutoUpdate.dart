@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'package:console/console.dart';
 import 'package:http/http.dart';
+import 'package:pubspec/pubspec.dart';
 import 'package:version/version.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,12 +16,13 @@ class AutoUpdate {
   AutoUpdate._internalConstructor(this.urlForNewVersion);
 
   // ATRIBUTES
-  final Version currentVersion = Version(0, 0, 1);
   String urlForNewVersion = "";
 
   // METHODS
   checkUpdate(String operationSystemName) async {
-    print("- Checando se existe uma nova versão do Atelo.");
+    PubSpec pubSpec = await PubSpec.load(Directory.current);
+    final Version currentVersion = Version.parse(pubSpec.version.toString());
+    print("- Checando se existe uma nova versão do Atelo. Versão atual: " + currentVersion.toString());
     Response response = await http.get('https://atelo.unicobit.com/$operationSystemName\_version.json');
     if(response.statusCode != 200){
       Console.setTextColor(1, bright: true);
@@ -38,6 +40,8 @@ class AutoUpdate {
     } else {
       Console.setTextColor(2, bright: true);
       print("Atelo atualizado.");
+      sleep(Duration(seconds: 2));
+      print("\x1B[2J\x1B[0;0H");
       return false;
     }
   }
