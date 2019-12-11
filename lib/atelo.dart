@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:console/console.dart';
 import 'AteloMenu/MainMenu.dart';
 import 'AutoUpdate/AutoUpdate.dart';
 import 'Model/OperationSystem/OperationSystem.dart';
 
 class Atelo {
+  final String scriptName = Platform.script.toString().replaceAll(RegExp(r'([^/]+)/{1,}'), '');
 
   coreFunction(OperationSystem operationSystem) async {
     Console.init();
@@ -50,7 +53,7 @@ class Atelo {
       MainMenu mainMenu = MainMenu();
       Console.setTextColor(3, bright: false);
       bool confirmed = mainMenu.choiceUpdateAtelo();
-      confirmed ? await autoUpdate.updateAtelo(operationSystem) : null;
+      confirmed ? await autoUpdate.updateAtelo(operationSystem, scriptName) : null;
     break;
     default:
     }
