@@ -1,8 +1,8 @@
 name: atelo
-description: A sample command-line application.
+description: Uma console application que tem o objetivo de auxiliar no setup do Flutter.
 version: 0.0.1
 homepage: https://www.unicobit.com/atelo/
-author: Your Name <leeashley.silva@gmail.com>
+author: Lee Ashley <leeashley.silva@gmail.com>
 
 environment:
   sdk: '>=2.5.0 <3.0.0'
@@ -13,6 +13,7 @@ dependencies:
   process_run: ^0.10.4+1
   http: ^0.12.0+2
   version: ^1.0.3
+  pubspec: ^0.1.2
 
 dev_dependencies:
   pedantic: ^1.8.0
