@@ -8,11 +8,10 @@ main(List<String> arguments) async {
   OperationSystemManager systemManager = OperationSystemManager();
   OperationSystem operationSystem = systemManager.getCurrentOperationSystem();
   Atelo atelo = Atelo();
-  print("PATH ATUAL: " + operationSystem.currentPath);
-  Console.setTextColor(3, bright: false);
-  await atelo.checkNewVersion(operationSystem);
 
   try {
+    Console.setTextColor(3, bright: false);
+    await atelo.checkNewVersion(operationSystem);
     atelo.coreFunction(operationSystem);
   } catch (err) {
     Console.setTextColor(1);
