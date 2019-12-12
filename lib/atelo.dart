@@ -10,11 +10,11 @@ class Atelo {
 
   coreFunction(OperationSystem operationSystem) async {
     Console.init();
-    Console.setTextColor(2, bright: true);
-    print('- ATELO INICIADO - ' + AutoUpdate().currentVersion.toString());
+    //Console.setTextColor(2, bright: true);
+    print('- ATELO INICIADO - v' + AutoUpdate().currentVersion.toString());
     MainMenu mainMenu = MainMenu();
     
-    Console.setTextColor(3, bright: false);
+    //Console.setTextColor(3, bright: false);
     String choice = mainMenu.mainChoice();
     switch (choice) {
       case "Instalar o Flutter (configurando a variável de ambiente).":

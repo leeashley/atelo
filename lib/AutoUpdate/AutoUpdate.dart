@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'package:console/console.dart';
-import 'package:http/http.dart';
 import 'package:version/version.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class AutoUpdate {
   static AutoUpdate _instance;
@@ -20,28 +19,33 @@ class AutoUpdate {
 
   // METHODS
   checkUpdate(String operationSystemName) async {
-    print("- Checando se existe uma nova versão do Atelo.\nVersão atual: " + currentVersion.toString());
-    Response response = await http.get('https://atelo.unicobit.com/$operationSystemName\_version.json');
-    if(response.statusCode != 200){
+    print("- Checando se existe uma nova versão do Atelo.");
+    await get('https://atelo.unicobit.com/$operationSystemName\_version.json').then((response) {
+      if (response.statusCode != 200) {
+        Console.setTextColor(1, bright: true);
+        print("Não foi possível verificar. Códido do response: ${response.statusCode}.");
+        Console.setTextColor(3, bright: false);
+        return false;
+      }
+      Map<String, dynamic> ateloVersion = jsonDecode(response.body);
+      this.urlForNewVersion = ateloVersion['URL'];
+      final Version lastVersion = Version.parse(ateloVersion['version']);
+      if (currentVersion < lastVersion) {
+        Console.setTextColor(1, bright: true);
+        print("Existe uma nova versão do Atelo.");
+        return true;
+      } else {
+        print("Atelo atualizado.");
+        sleep(Duration(seconds: 2));
+        print("\x1B[2J\x1B[0;0H");
+        return false;
+      }
+    }).catchError((error) {
       Console.setTextColor(1, bright: true);
-      print("Não foi possível verificar. Códido do response: ${response.statusCode}.");
-      Console.setTextColor(3, bright: false);
+      print("Não foi possível verificar se existe uma nova versão do Atelo. Por favor tente novamente depois.");
+      Console.resetAll();
       return false;
-    }
-    Map<String, dynamic> ateloVersion = jsonDecode(response.body);
-    this.urlForNewVersion = ateloVersion['URL'];
-    final Version lastVersion = Version.parse(ateloVersion['version']);
-    if (currentVersion < lastVersion) {
-      Console.setTextColor(1, bright: true);
-      print("Existe uma nova versão do Atelo.");
-      return true;
-    } else {
-      Console.setTextColor(2, bright: true);
-      print("Atelo atualizado.");
-      sleep(Duration(seconds: 2));
-      print("\x1B[2J\x1B[0;0H");
-      return false;
-    }
+    });
   }
 
   updateAtelo(OperationSystem operationSystem, String ateloFile){
