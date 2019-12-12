@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:console/console.dart';
 
 abstract class OperationSystem {
-  String currentPath;
+  final String currentPath = Directory.current.path;
   String name;
 
   setVariableEnvironment();

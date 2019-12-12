@@ -3,7 +3,6 @@ import 'dart:io';
 import 'OperationSystem.dart';
 
 class LinuxSystem extends OperationSystem {
-  String currentPath = Platform.script.toString().replaceFirst("file://", "").replaceAll(RegExp(r'/([^/]+)$'), '');
   final String name = "linux";
   
   @override
