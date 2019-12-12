@@ -6,9 +6,9 @@ class LinuxSystem extends OperationSystem {
   final String name = "linux";
   
   @override
-  setVariableEnvironment() {
+  Future<void> setVariableEnvironment() async{
     print("Configurando variável de ambiente.");
     ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.bashrc"]);
-    this.checkError(result, "Variável configurada.");
+    await this.isCheckError(result);
   }
 }

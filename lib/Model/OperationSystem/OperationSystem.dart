@@ -5,20 +5,19 @@ abstract class OperationSystem {
   final String currentPath = Directory.current.path;
   String name;
 
-  setVariableEnvironment();
+  Future<void> setVariableEnvironment();
   
-  installationFlutter(){
+  Future<void> installationFlutter() async{
+    Console.setTextColor(3, bright: false);
     print("Baixando o Flutter...");
+    Console.resetAll();
     ProcessResult downloadFlutter = Process.runSync('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true);
-    this.checkError(downloadFlutter, "Download do Flutter concluído.");
+    await this.isCheckError(downloadFlutter);
   }
 
-  checkError(ProcessResult result, [String successMessage]){
-    if(result.stderr == null || result.exitCode == 0){
-      Console.setTextColor(2);
-      successMessage.isNotEmpty ? print("$successMessage") : null;
-    } else {
-      throw(result.stderr.toString());
+  isCheckError(ProcessResult result) {
+    if(result.stderr != null || result.exitCode != 0){
+      throw (result.stderr);
     }
   }
 }

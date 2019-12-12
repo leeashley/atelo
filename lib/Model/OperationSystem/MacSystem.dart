@@ -6,9 +6,9 @@ class MacSystem extends OperationSystem {
   final String name = "macos";
 
   @override
-  setVariableEnvironment() {
+  Future<void> setVariableEnvironment() async {
     print("Configurando variável de ambiente.");
     ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.bash_profile"]);
-    this.checkError(result, "Variável configurada.");
+    this.isCheckError(result);
   }
 }

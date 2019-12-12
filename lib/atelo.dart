@@ -18,15 +18,31 @@ class Atelo {
     String choice = mainMenu.mainChoice();
     switch (choice) {
       case "Instalar o Flutter (configurando a variável de ambiente).":
-        Console.setTextColor(3, bright: false);
-        operationSystem.installationFlutter();
-        print("Flutter instalado e configurado.");
-        Console.setTextColor(3, bright: false);
-        operationSystem.setVariableEnvironment();
-        bool close = mainMenu.choiceCloseAtelo();
-        Console.resetAll();
-        close ? null : coreFunction(operationSystem);
-        break;
+        await operationSystem.installationFlutter().then((isVoid) async {
+          Console.setTextColor(3, bright: false);
+          print("Flutter instalado e configurado.");
+          Console.resetAll();
+          await operationSystem.setVariableEnvironment().then((isVoid) {
+            Console.setTextColor(3, bright: false);
+            print("Variável de ambiente configurada.");
+            bool close = mainMenu.choiceCloseAtelo();
+            Console.resetAll();
+            close ? null : coreFunction(operationSystem);
+          }).catchError((err) {
+            Console.setTextColor(1);
+            print("Error na configuração da variável de ambiente.\n### Erro: ###\n" + err);
+            Console.resetAll();
+            bool close = mainMenu.choiceCloseAtelo();
+            close ? null : coreFunction(operationSystem);
+          });
+        }).catchError((err){
+          Console.setTextColor(1);
+          print("Error na instalação do Flutter.\n### Erro: ###\n" + err);
+          Console.resetAll();
+          bool close = mainMenu.choiceCloseAtelo();
+          close ? null : coreFunction(operationSystem);
+        });;
+      break;
       case "Verificar atualização do Atelo.":
         print("Verificando atualização...");
         await checkNewVersion(operationSystem);
