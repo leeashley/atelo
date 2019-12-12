@@ -33,6 +33,7 @@ class AutoUpdate {
       if (currentVersion < lastVersion) {
         Console.setTextColor(1, bright: true);
         print("Existe uma nova versão do Atelo.");
+        Console.resetAll();
         return true;
       } else {
         print("Atelo atualizado.");
