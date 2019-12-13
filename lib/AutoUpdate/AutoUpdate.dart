@@ -19,7 +19,9 @@ class AutoUpdate {
 
   // METHODS
   checkUpdate(String operationSystemName) async {
+    Console.setTextColor(3, bright: false);
     print("- Checando se existe uma nova versão do Atelo.");
+    Console.resetAll();
     await get('https://atelo.unicobit.com/$operationSystemName\_version.json').then((response) {
       if (response.statusCode != 200) {
         Console.setTextColor(1, bright: true);
@@ -37,6 +39,7 @@ class AutoUpdate {
         return true;
       } else {
         print("Atelo atualizado.");
+        Console.resetAll();
         sleep(Duration(seconds: 2));
         print("\x1B[2J\x1B[0;0H");
         return false;

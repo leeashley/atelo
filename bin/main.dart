@@ -10,7 +10,6 @@ main(List<String> arguments) async {
   Atelo atelo = Atelo();
 
   try {
-    Console.setTextColor(3, bright: false);
     await atelo.checkNewVersion(operationSystem);
     atelo.coreFunction(operationSystem);
   } catch (err) {
