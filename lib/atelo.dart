@@ -19,11 +19,11 @@ class Atelo {
     switch (choice) {
       case "Instalar o Flutter (configurando a variável de ambiente).":
         await operationSystem.installationFlutter().then((isVoid) async {
-          Console.setTextColor(3, bright: false);
+          Console.setTextColor(2, bright: true);
           print("Flutter instalado e configurado.");
           Console.resetAll();
           await operationSystem.setVariableEnvironment().then((isVoid) {
-            Console.setTextColor(3, bright: false);
+            Console.setTextColor(2, bright: true);
             print("Variável de ambiente configurada.");
             bool close = mainMenu.choiceCloseAtelo();
             Console.resetAll();
