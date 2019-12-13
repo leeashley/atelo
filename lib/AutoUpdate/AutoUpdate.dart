@@ -14,7 +14,7 @@ class AutoUpdate {
   AutoUpdate._internalConstructor(this.urlForNewVersion);
 
   // ATRIBUTES
-  final Version currentVersion = Version(0, 0, 1);
+  final Version currentVersion = Version(0, 0, 2);
   String urlForNewVersion = "";
 
   // METHODS
