@@ -16,7 +16,8 @@ abstract class OperationSystem {
   }
 
   isCheckError(ProcessResult result) {
-    if(result.stderr != null || result.exitCode != 0){
+    if(result.stderr != null && result.exitCode != 0){
+      print("código de saída: " + result.exitCode.toString());
       throw (result.stderr);
     }
   }
