@@ -1,14 +1,15 @@
+import 'package:atelo/Model/Language/BaseLanguage.dart';
 import "package:console/console.dart";
 
 class MainMenu {
   
-  String mainChoice(){
-    var chooser = Chooser<String>(["Instalar o Flutter (configurando a variável de ambiente).", "Verificar atualização do Atelo.", "Limpar terminal.", "Sair."], message: "Selecione uma opção: ");
+  String mainChoice(BaseLanguage language){
+    var chooser = Chooser<String>([language.installFlutter, language.checkForAteloUpdate, language.clearTerminal, language.exit], message: language.selectAnOption);
     return chooser.chooseSync();
   }
 
-  bool choiceCloseAtelo(){
-    var chooser = Chooser<String>(["Voltar para o Menu Principal.", "Sair."], message: "Selecione uma opção: ");
+  bool choiceCloseAtelo(BaseLanguage language){
+    var chooser = Chooser<String>([language.backToMainMenu, language.exit], message: language.selectAnOption);
     var answer = chooser.chooseSync();
     switch (answer) {
       case "Voltar para o Menu Principal.":
@@ -21,16 +22,13 @@ class MainMenu {
     }
   }
 
-  bool choiceUpdateAtelo(){
-    var chooser = Chooser<String>(["SIM", "NÃO"], message: "Deseja atualizar o Atelo? ");
+  bool choiceUpdateAtelo(BaseLanguage language){
+    var chooser = Chooser<String>(["${language.yes}", "${language.no}"], message: "${language.choiceUpdateAtelo}");
     var answer = chooser.chooseSync();
-    switch (answer) {
-      case "SIM":
-        return true;
-      break;
-      case "NÃO": return false;
-      break;
-      default: return false;
+    if(answer == language.yes){
+      return true;
+    } else {
+      return false;
     }
   }
 }

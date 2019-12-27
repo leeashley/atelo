@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:atelo/Model/Language/BaseLanguage.dart';
 import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'package:console/console.dart';
 import 'package:version/version.dart';
@@ -18,14 +19,14 @@ class AutoUpdate {
   String urlForNewVersion = "";
 
   // METHODS
-  checkUpdate(String operationSystemName) async {
+  checkUpdate(String operationSystemName, BaseLanguage language) async {
     Console.setTextColor(3, bright: false);
-    print("- Checando se existe uma nova versão do Atelo.");
+    print(language.checkingNewVersion);
     Console.resetAll();
     await get('https://atelo.unicobit.com/$operationSystemName\_version.json').then((response) {
       if (response.statusCode != 200) {
         Console.setTextColor(1, bright: true);
-        print("Não foi possível verificar. Códido do response: ${response.statusCode}.");
+        print("${language.unableVerifyUpdate} ${response.statusCode}.");
         Console.setTextColor(3, bright: false);
         return false;
       }
@@ -34,11 +35,11 @@ class AutoUpdate {
       final Version lastVersion = Version.parse(ateloVersion['version']);
       if (currentVersion < lastVersion) {
         Console.setTextColor(1, bright: true);
-        print("Existe uma nova versão do Atelo.");
+        print("${language.verificationSuccess}");
         Console.resetAll();
         return true;
       } else {
-        print("Atelo atualizado.");
+        print("${language.updatedAtelo}");
         Console.resetAll();
         sleep(Duration(seconds: 2));
         print("\x1B[2J\x1B[0;0H");
@@ -46,29 +47,29 @@ class AutoUpdate {
       }
     }).catchError((error) {
       Console.setTextColor(1, bright: true);
-      print("Não foi possível verificar se existe uma nova versão do Atelo. Por favor tente novamente depois.");
+      print("${language.unableVerifyUpdate}");
       Console.resetAll();
       return false;
     });
   }
 
-  updateAtelo(OperationSystem operationSystem, String ateloFile){
-    print("Atualizando o Atelo... ");
+  updateAtelo(OperationSystem operationSystem, String ateloFile, BaseLanguage language){
+    print(language.updatingAtelo);
     final String separator = Platform.pathSeparator;
     final String ateloZip = "novo_atelo.zip";
     Process.runSync('curl', ['-o', "${operationSystem.currentPath}${separator}${ateloZip}",'$urlForNewVersion'], runInShell: true);
     if(operationSystem.name == "windows"){
-      print("Extraindo atelo no windows.");
+      print(language.extractingAteloWin);
       Process.runSync('tar', ['-xvf', '${operationSystem.currentPath}${separator}${ateloZip}', '-C', '${operationSystem.currentPath}'], runInShell: false);
       Process.runSync('del', ['/f','${operationSystem.currentPath}${separator}${ateloZip}'], runInShell: true);
-      Process.runSync('rename', ['${operationSystem.currentPath}${separator}atelo_win.exe', 'novo_${ateloFile}'], runInShell: true);
-      print("Atelo atualizado!\nÉ recomendado encerrar e abrir o novo_${ateloFile}, ele está no mesmo diretório que o executável atual.");
+      Process.runSync('rename', ['${operationSystem.currentPath}${separator}atelo_win.exe', '${language.newAteloWin}${ateloFile}'], runInShell: true);
+      print("${language.successfullyUpdatedWin} ${language.newAteloWin}${ateloFile}");
     } else {
-      print("Extraindo atelo no unix.");
+      print(language.extractingAteloLinux);
       Process.runSync('unzip', ['-o', '${operationSystem.currentPath}${separator}${ateloZip}'], runInShell: false);
       Process.runSync('rm', ['-f', '${operationSystem.currentPath}${separator}${ateloZip}'], runInShell: false);
       Process.runSync('mv', ['${operationSystem.currentPath}${separator}atelo_${operationSystem.name}', '${operationSystem.currentPath}${separator}${ateloFile}']);
-      print("Atelo atualizado!\nÉ recomendado encerrar essa sessão e executar novamente o ${ateloFile}");
+      print(language.successfullyUpdated);
     }
   }
 }

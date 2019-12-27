@@ -1,23 +1,25 @@
 import 'dart:io';
+import 'package:atelo/Manager/Language/LanguageManager.dart';
 import 'package:atelo/Manager/OperationSystem/OperationSystemManager.dart';
+import 'package:atelo/Model/Language/BaseLanguage.dart';
 import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'package:atelo/atelo.dart';
 import 'package:console/console.dart';
 
 main(List<String> arguments) async {
-  OperationSystemManager systemManager = OperationSystemManager();
-  OperationSystem operationSystem = systemManager.getCurrentOperationSystem();
+  OperationSystem operationSystem = OperationSystemManager().getCurrentOperationSystem();
+  BaseLanguage language = LanguageManager().getCurrentLanguageSystem();
   Atelo atelo = Atelo();
 
   try {
-    await atelo.checkNewVersion(operationSystem);
-    atelo.coreFunction(operationSystem);
+    //await atelo.checkNewVersion(operationSystem, language);
+    atelo.coreFunction(operationSystem, language);
   } catch (err) {
     Console.setTextColor(1);
     if (err.toString().contains("Could not resolve host")) {
-      stderr.writeln("Erro de conexão, por favor verifique sua internet:\n$err");
+      stderr.writeln("${language.connectionError}\n$err");
     } else {
-      stderr.writeln("Ocorreu um erro:\n$err");
+      stderr.writeln("${language.occurredError}\n$err");
     }
     Console.resetAll();
     stdin.readLineSync();

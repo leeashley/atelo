@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:atelo/Model/Language/BaseLanguage.dart';
+
 import 'OperationSystem.dart';
 
 class MacSystem extends OperationSystem {
@@ -6,9 +8,8 @@ class MacSystem extends OperationSystem {
   final String name = "macos";
 
   @override
-  Future<void> setVariableEnvironment() async {
-    print("Configurando variável de ambiente.");
+  Future<void> setVariableEnvironment(BaseLanguage language) async {
     ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.bash_profile"]);
-    this.isCheckError(result);
+    this.isCheckError(result, language);
   }
 }
