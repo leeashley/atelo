@@ -25,8 +25,8 @@ class Atelo {
         await operationSystem.setEnvironmentVariable(language).then((isVoid) {
           Console.setTextColor(2, bright: true);
           print(language.successfullyEnvironmentVariable);
-          bool close = mainMenu.choiceCloseAtelo(language);
           Console.resetAll();
+          bool close = mainMenu.choiceCloseAtelo(language);
           close ? null : coreFunction(operationSystem, language);
         }).catchError((err) {
           Console.setTextColor(1);

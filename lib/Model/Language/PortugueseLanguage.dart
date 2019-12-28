@@ -35,6 +35,6 @@ class PortugueseLanguage extends BaseLanguage {
   final String unableVerifyUpdateGeneric = "Não foi possível verificar se existe uma nova versão do Atelo. Por favor tente novamente depois.";
   final String occurredError = "Ocorreu um erro:";
   final String environmentVariableError = "Error na configuração da variável de ambiente.\\n### Erro: ###\\n";
-  final String flutterInstallationError = "Error na instalação do Flutter.\\n### Erro: ###\\n";
+  final String flutterInstallationError = "Error na instalação do Flutter.\n### Erro: ###\n";
   final String exitCode = "Código de saída: ";
 } 

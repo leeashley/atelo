@@ -9,6 +9,8 @@ abstract class OperationSystem {
   String name;
 
   Future<void> setEnvironmentVariable(BaseLanguage language);
+
+  Future<void> executeFlutterDoctor(BaseLanguage language);
   
   Future<void> installationFlutter(BaseLanguage language) async{
     print("\x1B[2J\x1B[0;0H");
@@ -17,12 +19,14 @@ abstract class OperationSystem {
     Console.resetAll();
     ProcessResult downloadFlutter = Process.runSync('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true);
     await this.isCheckError(downloadFlutter, language);
+    await executeFlutterDoctor(language);
   }
 
   isCheckError(ProcessResult result, BaseLanguage language) {
     if(result.stderr != null && result.exitCode != 0){
-      print(language.exit + result.exitCode.toString());
-      throw (result.stderr);
+      print("\x1B[2J\x1B[0;0H");
+      print(language.exitCode + result.exitCode.toString());
+      result.stderr.toString().isNotEmpty ? throw (result.stderr) : throw (result.stdout);
     }
   }
 }
