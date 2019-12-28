@@ -22,7 +22,7 @@ class Atelo {
         print(language.successfullyInstalledFlutter);
         Console.resetAll();
         print(language.settingEnvironmentVariable);
-        await operationSystem.setVariableEnvironment(language).then((isVoid) {
+        await operationSystem.setEnvironmentVariable(language).then((isVoid) {
           Console.setTextColor(2, bright: true);
           print(language.successfullyEnvironmentVariable);
           bool close = mainMenu.choiceCloseAtelo(language);

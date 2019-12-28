@@ -1,16 +1,17 @@
 import 'dart:io';
-import 'package:atelo/Manager/Language/LanguageManager.dart';
 import 'package:atelo/Model/Language/BaseLanguage.dart';
 import 'package:console/console.dart';
+import 'package:process_run/process_run.dart';
 
 abstract class OperationSystem {
   final String currentPath = Directory.current.path;
-  //final BaseLanguage language = LanguageManager().getCurrentLanguageSystem();
+  final String systemPathSeparator = Platform.pathSeparator;
   String name;
 
-  Future<void> setVariableEnvironment(BaseLanguage language);
+  Future<void> setEnvironmentVariable(BaseLanguage language);
   
   Future<void> installationFlutter(BaseLanguage language) async{
+    print("\x1B[2J\x1B[0;0H");
     Console.setTextColor(3, bright: false);
     print(language.downloadingFlutter);
     Console.resetAll();

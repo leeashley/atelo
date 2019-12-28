@@ -6,9 +6,9 @@ class WindowsSystem extends OperationSystem {
   final String name = "windows";
 
   @override
-  Future<void> setVariableEnvironment(BaseLanguage language) async{
+  Future<void> setEnvironmentVariable(BaseLanguage language) async{
 
-    ProcessResult resultVar = Process.runSync('powershell.exe', ['Set-ItemProperty -path HKCU:${pathSeparatorSystem}Environment${pathSeparatorSystem} -Name Path -Value "\$((Get-ItemProperty -path HKCU:${pathSeparatorSystem}Environment${pathSeparatorSystem} -Name Path).Path);$currentPath${pathSeparatorSystem}flutter${pathSeparatorSystem}bin"'], runInShell: false);
+    ProcessResult resultVar = Process.runSync('powershell.exe', ['Set-ItemProperty -path HKCU:${systemPathSeparator}Environment${systemPathSeparator} -Name Path -Value "\$((Get-ItemProperty -path HKCU:${systemPathSeparator}Environment${systemPathSeparator} -Name Path).Path);$currentPath${systemPathSeparator}flutter${systemPathSeparator}bin"'], runInShell: false);
     this.isCheckError(resultVar, language);
   }
 }

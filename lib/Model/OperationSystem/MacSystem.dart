@@ -8,7 +8,7 @@ class MacSystem extends OperationSystem {
   final String name = "macos";
 
   @override
-  Future<void> setVariableEnvironment(BaseLanguage language) async {
+  Future<void> setEnvironmentVariable(BaseLanguage language) async {
     ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.bash_profile"]);
     this.isCheckError(result, language);
   }
