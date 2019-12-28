@@ -11,14 +11,12 @@ class MainMenu {
   bool choiceCloseAtelo(BaseLanguage language){
     var chooser = Chooser<String>([language.backToMainMenu, language.exit], message: language.selectAnOption);
     var answer = chooser.chooseSync();
-    switch (answer) {
-      case "Voltar para o Menu Principal.":
-        return false;
-      break;
-      case "Sair.":
-        return true;
-      break;
-      default: return false;
+    if(answer == language.backToMainMenu){
+      return false;
+    } else if (answer == language.exit){
+      return true;
+    } else {
+      return false;
     }
   }
 
