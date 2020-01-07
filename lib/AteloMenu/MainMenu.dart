@@ -1,16 +1,19 @@
 import 'package:atelo/Model/Language/BaseLanguage.dart';
+import 'package:cli_menu/cli_menu.dart';
 import "package:console/console.dart";
 
 class MainMenu {
-  
+
   String mainChoice(BaseLanguage language){
-    var chooser = Chooser<String>([language.installFlutter, language.checkForAteloUpdate, language.clearTerminal, language.exit], message: language.selectAnOption);
-    return chooser.chooseSync();
+    print(language.selectAnOption);
+    var chooser = Menu([language.installFlutter, 'Diagnóstico (Variável do Flutter precisa estar configurada).',language.checkForAteloUpdate, language.clearTerminal, language.exit]);
+    return chooser.choose().toString();
   }
 
   bool choiceCloseAtelo(BaseLanguage language){
-    var chooser = Chooser<String>([language.backToMainMenu, language.exit], message: language.selectAnOption);
-    var answer = chooser.chooseSync();
+    print(language.selectAnOption);
+    var chooser = Menu([language.backToMainMenu, language.exit]);
+    String answer = chooser.choose().toString();
     if(answer == language.backToMainMenu){
       return false;
     } else if (answer == language.exit){
@@ -21,8 +24,9 @@ class MainMenu {
   }
 
   bool choiceUpdateAtelo(BaseLanguage language){
-    var chooser = Chooser<String>(["${language.yes}", "${language.no}"], message: "${language.choiceUpdateAtelo}");
-    var answer = chooser.chooseSync();
+    print(language.choiceUpdateAtelo);
+    var chooser = Menu([language.yes, language.no]);
+    String answer = chooser.choose().toString();
     if(answer == language.yes){
       return true;
     } else {

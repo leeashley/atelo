@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:atelo/Model/Language/BaseLanguage.dart';
+import 'package:cli_util/cli_logging.dart';
 import 'package:console/console.dart';
 import 'package:process_run/process_run.dart';
 
@@ -10,23 +11,29 @@ abstract class OperationSystem {
 
   Future<void> setEnvironmentVariable(BaseLanguage language);
 
-  Future<void> executeFlutterDoctor(BaseLanguage language);
-  
+  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {String startProgressText = "Realizando diagnóstico.", String finishProgressText = "\nDiagnóstico:", bool verbose = false, bool stdoutRun = false});
+
   Future<void> installationFlutter(BaseLanguage language) async{
+    Logger loggerProgress = Logger.standard();
     print("\x1B[2J\x1B[0;0H");
     Console.setTextColor(3, bright: false);
-    print(language.downloadingFlutter);
+    Progress progress = loggerProgress.progress(language.downloadingFlutter);
+    ProcessResult downloadFlutter = await run('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true);
+    Console.setTextColor(2, bright: true);
+    progress.finish(message: "\n${language.successfullyInstalledFlutter}");
     Console.resetAll();
-    ProcessResult downloadFlutter = Process.runSync('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true);
     await this.isCheckError(downloadFlutter, language);
-    await executeFlutterDoctor(language);
   }
 
   isCheckError(ProcessResult result, BaseLanguage language) {
     if(result.stderr != null && result.exitCode != 0){
       print("\x1B[2J\x1B[0;0H");
       print(language.exitCode + result.exitCode.toString());
-      result.stderr.toString().isNotEmpty ? throw (result.stderr) : throw (result.stdout);
+      //print("CHECK ERROR: " + result.stderr.toString().contains("'flutter' is not recognized as an internal or external command").toString());
+      //Exception(" Por favor, verifique a variável de ambiente.");
+      throw (" Por favor, verifique a variável de ambiente INNER.".toString());
+      //if (result.stderr.toString().contains("'flutter' is not recognized as an internal or external command"))
+      //result.stderr.toString().isNotEmpty ? throw (result.stderr) : throw (result.stdout);
     }
   }
 }
