@@ -12,6 +12,7 @@ class EnglishLanguage extends BaseLanguage {
   final String yes = "YES.";
   final String no = "NO.";
   final String choiceUpdateAtelo = "Do you want to update the Atelo? ";
+  final String flutterDiagnostic = "Diagnosis (Flutter variable need to be configured).";
 
   // UpdateMessages
   final String checkingNewVersion = "- Checking if there is a new version of Atelo.";
@@ -28,14 +29,22 @@ class EnglishLanguage extends BaseLanguage {
   final String successfullyEnvironmentVariable = "Environment variable configured.";
   final String settingEnvironmentVariable = "Configuring environment variable.";
   final String downloadingFlutter = "Downloading Flutter...";
+  final String downloadingFlutterDependencies = "Downloading Flutter dependencies.\ne.g Dart SDK , Assests.";
+  final String downloadedWithSuccess = "Download finished successfully.";
 
   // ErrorMessages
   final String connectionError = "Connection error, please check your internet:";
   final String unableVerifyUpdate = "Unable to verify. Response Code: ";
   final String unableVerifyUpdateGeneric = "Unable to verify if there is a new version of Atelo. Please try again later.";
   final String occurredError = "An error has ocurred:";
-  final String environmentVariableError = "Error setting environment variable.\\n### Error: ###\\n";
-  final String flutterInstallationError = "Flutter installation error.\\n### Error: ###\\n";
+  final String environmentVariableError = "Error setting environment variable.\n### Error: ###\n";
+  final String flutterInstallationError = "Flutter installation error.\n### Error: ###\n";
   final String exitCode = "Exit code: ";
+  final String checkEnvironmentVariable = " Please, verify the environment variable.";
+  final String operationSystemNotFound = "It was not possible to detect the operating system.";
 
+  // Diagnostic
+  final String footerDiagnostic = "Attention points: begin with [!] or positive points: begin with [√] Remaining points: begin with X";
+  final String finishDiagnostic = "\nDiagnosis performed.";
+  final String startingDiagnostic = "Performing diagnosis.";
 }

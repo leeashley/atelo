@@ -11,14 +11,15 @@ abstract class OperationSystem {
 
   Future<void> setEnvironmentVariable(BaseLanguage language);
 
-  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {String startProgressText = "Realizando diagnóstico.", String finishProgressText = "\nDiagnóstico:", bool verbose = false, bool stdoutRun = false});
+  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {bool verbose = false, bool stdoutRun = false});
 
   Future<void> installationFlutter(BaseLanguage language) async{
     Logger loggerProgress = Logger.standard();
     print("\x1B[2J\x1B[0;0H");
     Console.setTextColor(3, bright: false);
     Progress progress = loggerProgress.progress(language.downloadingFlutter);
-    ProcessResult downloadFlutter = await run('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true);
+    print("\r");
+    ProcessResult downloadFlutter = await run('git', ['clone', '--branch', 'stable', 'https://github.com/flutter/flutter.git'], runInShell: true, verbose: true, commandVerbose: false);
     Console.setTextColor(2, bright: true);
     progress.finish(message: "\n${language.successfullyInstalledFlutter}");
     Console.resetAll();
@@ -29,11 +30,8 @@ abstract class OperationSystem {
     if(result.stderr != null && result.exitCode != 0){
       print("\x1B[2J\x1B[0;0H");
       print(language.exitCode + result.exitCode.toString());
-      //print("CHECK ERROR: " + result.stderr.toString().contains("'flutter' is not recognized as an internal or external command").toString());
-      //Exception(" Por favor, verifique a variável de ambiente.");
-      throw (" Por favor, verifique a variável de ambiente INNER.".toString());
-      //if (result.stderr.toString().contains("'flutter' is not recognized as an internal or external command"))
-      //result.stderr.toString().isNotEmpty ? throw (result.stderr) : throw (result.stdout);
+      if (result.stderr.toString().contains("'flutter' is not recognized as an internal or external command"))throw (" Por favor, verifique a variável de ambiente INNER.".toString());
+      result.stderr.toString().isNotEmpty ? throw (result.stderr) : throw (result.stdout);
     }
   }
 }

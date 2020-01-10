@@ -10,6 +10,7 @@ abstract class BaseLanguage {
   String yes;
   String no;
   String choiceUpdateAtelo;
+  String flutterDiagnostic;
 
   // UpdateMessages
   String checkingNewVersion;
@@ -26,6 +27,8 @@ abstract class BaseLanguage {
   String successfullyEnvironmentVariable;
   String settingEnvironmentVariable;
   String downloadingFlutter;
+  String downloadingFlutterDependencies;
+  String downloadedWithSuccess;
 
   // ErrorMessages
   String connectionError;
@@ -35,4 +38,11 @@ abstract class BaseLanguage {
   String environmentVariableError;
   String flutterInstallationError;
   String exitCode;
+  String checkEnvironmentVariable;
+  String operationSystemNotFound;
+
+  // Diagnostic
+  String footerDiagnostic;
+  String finishDiagnostic;
+  String startingDiagnostic;
 }

@@ -15,23 +15,30 @@ class WindowsSystem extends OperationSystem {
     Console.setTextColor(2, bright: true);
     print(language.successfullyEnvironmentVariable);
     Console.resetAll();
-    await flutterDoctor(language, false, startProgressText: "Baixando dependências do Flutter.\ne.g Dart SDK , Assests.", finishProgressText: "Dependências baixadas com sucesso.");
+    await flutterDoctor(language, false);
   }
 
   @override
-  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {String startProgressText = "Realizando diagnóstico.", String finishProgressText = "\nDiagnóstico realizado.", bool verbose = false, bool stdoutRun = false}) async {
+  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {bool verbose = false, bool stdoutRun = false}) async {
     Logger loggerProgress = Logger.standard();
-    Progress progress = loggerProgress.progress('$startProgressText');
-    if(diagnostic) stdoutRun = true;
-    await run('refreshenv && flutter doctor', [''], runInShell: true, includeParentEnvironment: true, verbose: verbose, stdout: stdoutRun ? stdout : null).then((result) async {
+    String startingText = language.downloadingFlutterDependencies;
+    String finishProgress = language.downloadedWithSuccess;
+    if(diagnostic) {
+      startingText = language.startingDiagnostic;
+      finishProgress = language.finishDiagnostic;
+      stdoutRun = true;
+    };
+    Progress progress = loggerProgress.progress(startingText);
+    //await run('powershell.exe', ['\$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")', ';' , 'flutter doctor'], runInShell: false, includeParentEnvironment: true, verbose: verbose, stdout: null);
+    await run('powershell.exe', ['\$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")', ';' , 'flutter doctor'], runInShell: false, includeParentEnvironment: true, verbose: verbose, stdout: stdoutRun ? stdout : null).then((result) async {
       progress.finish();
       await this.isCheckError(result, language);
       Console.setTextColor(2, bright: true);
-      print("${finishProgressText}");
+      print(finishProgress);
       Console.resetAll();
     }).catchError((err){
       progress.finish();
-      throw (" Por favor, verifique a variável de ambiente.");
+      throw (language.checkEnvironmentVariable);
     });
   }
 

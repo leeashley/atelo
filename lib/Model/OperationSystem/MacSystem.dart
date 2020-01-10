@@ -7,33 +7,41 @@ import 'OperationSystem.dart';
 
 class MacSystem extends OperationSystem {
   final String name = "macos";
+  final String shellFile = Platform.environment['SHELL'].split('/')[2];
 
   @override
   Future<void> setEnvironmentVariable(BaseLanguage language) async {
-    ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.zshrc"]);
+    String envVariableFile = shellFile.contains("bash") ? ".bash_profile" : ".${shellFile}rc";
+    ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=$systemPathSeparator"\$PATH:$currentPath${systemPathSeparator}flutter${systemPathSeparator}bin"' ">> \$HOME${systemPathSeparator}$envVariableFile"]);
     this.isCheckError(result, language);
     Console.setTextColor(2, bright: true);
     print(language.successfullyEnvironmentVariable);
     Console.resetAll();
-    await flutterDoctor(language, false, startProgressText: "Baixando dependências do Flutter.\ne.g Dart SDK , Assests.", finishProgressText: "Dependências baixadas com sucesso.");
+    await flutterDoctor(language, false);
   }
 
   @override
-  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {String startProgressText = "Realizando diagnóstico.", String finishProgressText = "Diagnóstico:", bool verbose = false, bool stdoutRun = false}) async {
+  Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {bool verbose = false, bool stdoutRun = false}) async {
     Logger loggerProgress = Logger.standard();
-    Progress progress = loggerProgress.progress('$startProgressText');
-    String command = "source \$HOME/.zshrc && flutter doctor";
-    if (diagnostic) command = "flutter doctor";
+    String envVariableFile = shellFile.contains("bash") ? ".bash_profile" : ".${shellFile}rc";
+    String command = "source \$HOME/$envVariableFile && flutter doctor";
+    String startingText = language.downloadingFlutterDependencies;
+    String finishProgress = language.downloadedWithSuccess;
+    if (diagnostic) {
+      startingText = language.startingDiagnostic;
+      finishProgress = language.finishDiagnostic;
+    }
+    Progress progress = loggerProgress.progress(startingText);
     await run('bash', ['-c', '$command'], runInShell: true, includeParentEnvironment: true, verbose: verbose, stdout: stdoutRun ? stdout : null).then((result) async {
       progress.finish();
       await this.isCheckError(result, language);
       Console.setTextColor(2, bright: true);
-      print("\n$finishProgressText");
+      print(finishProgress);
       Console.resetAll();
       if(diagnostic) print("${result.stdout.toString()}");
     }).catchError((err){
       progress.finish();
-      throw (" Por favor, verifique a variável de ambiente.");
+      throw (language.checkEnvironmentVariable);
     });
   }
 }

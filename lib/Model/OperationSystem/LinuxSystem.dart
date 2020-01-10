@@ -21,19 +21,24 @@ class LinuxSystem extends OperationSystem {
   @override
   Future<void> flutterDoctor(BaseLanguage language, bool diagnostic, {String startProgressText = "Realizando diagnóstico.", String finishProgressText = "Diagnóstico:", bool verbose = false, bool stdoutRun = false}) async {
     Logger loggerProgress = Logger.standard();
-    Progress progress = loggerProgress.progress('$startProgressText');
-    String workingDirectory = "${currentPath}${systemPathSeparator}flutter${systemPathSeparator}bin";
+    String startingText = language.downloadingFlutterDependencies;
+    String finishProgress = language.downloadedWithSuccess;
+    if(diagnostic) {
+      startingText = language.startingDiagnostic;
+      finishProgress = language.finishDiagnostic;
+    };
+    Progress progress = loggerProgress.progress(startingText);
     String command = "source ~/.xprofile && flutter doctor";
     await run('bash', ['-c', '$command'], runInShell: true , includeParentEnvironment: true).then((result) async {
       progress.finish();
       await this.isCheckError(result, language);
       Console.setTextColor(2, bright: true);
-      print("${finishProgressText}");
+      print(finishProgress);
       Console.resetAll();
       if (diagnostic) print("${result.stdout.toString()}");
     }).catchError((err){
       progress.finish();
-      throw (" Por favor, verifique a variável de ambiente.");
+      throw (language.checkEnvironmentVariable);
     });
   }
 }

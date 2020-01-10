@@ -6,7 +6,7 @@ class MainMenu {
 
   String mainChoice(BaseLanguage language){
     print(language.selectAnOption);
-    var chooser = Menu([language.installFlutter, 'Diagnóstico (Variável do Flutter precisa estar configurada).',language.checkForAteloUpdate, language.clearTerminal, language.exit]);
+    var chooser = Menu([language.installFlutter, language.flutterDiagnostic, language.checkForAteloUpdate, language.clearTerminal, language.exit]);
     return chooser.choose().toString();
   }
 

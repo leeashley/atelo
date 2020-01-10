@@ -12,6 +12,7 @@ class PortugueseLanguage extends BaseLanguage {
   final String backToMainMenu = "Voltar para o Menu Principal.";
   final String selectAnOption = "Selecione uma opção: ";
   final String headerMenu = "ATELO INICIADO - v";
+  final String flutterDiagnostic = "Diagnóstico (Variável do Flutter precisa estar configurada).";
 
   // UpdateMessages
   final String checkingNewVersion = "- Checando se existe uma nova versão do Atelo.";
@@ -28,13 +29,22 @@ class PortugueseLanguage extends BaseLanguage {
   final String successfullyEnvironmentVariable = "Variável de ambiente configurada.";
   final String settingEnvironmentVariable = "Configurando variável de ambiente.";
   final String downloadingFlutter = "Baixando o Flutter...";
+  final String downloadingFlutterDependencies = "Baixando dependências do Flutter.\ne.g Dart SDK , Assests.";
+  final String downloadedWithSuccess = "Download finalizado com sucesso.";
 
   // ErrorMessages
   final String connectionError ="Erro de conexão, por favor verifique sua internet:";
   final String unableVerifyUpdate = "Não foi possível verificar. Códido do response: ";
   final String unableVerifyUpdateGeneric = "Não foi possível verificar se existe uma nova versão do Atelo. Por favor tente novamente depois.";
   final String occurredError = "Ocorreu um erro:";
-  final String environmentVariableError = "Error na configuração da variável de ambiente.\\n### Erro: ###\\n";
+  final String environmentVariableError = "Error na configuração da variável de ambiente.\n### Erro: ###\n";
   final String flutterInstallationError = "Error na instalação do Flutter.\n### Erro: ###\n";
   final String exitCode = "Código de saída: ";
+  final String checkEnvironmentVariable = " Por favor, verifique a variável de ambiente.";
+  final String operationSystemNotFound = "Não foi possível detectador o sistema operacional.";
+
+  // Diagnostic
+  final String footerDiagnostic = "P.S. - Pontos de atenção: começam [!] ou !.\nPontos positivos: começam com [√].\nPontos faltantes: iniciam com X.";
+  final String finishDiagnostic = "\nDiagnóstico realizado.";
+  final String startingDiagnostic = "Realizando diagnóstico.";
 } 
