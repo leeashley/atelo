@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:atelo/Manager/Language/LanguageManager.dart';
 import 'package:atelo/Manager/OperationSystem/OperationSystemManager.dart';
@@ -12,8 +13,8 @@ main(List<String> arguments) async {
   Atelo atelo = Atelo();
 
   try {
-    //await atelo.checkNewVersion(operationSystem, language);
-    atelo.coreFunction(operationSystem, language);
+    await atelo.checkNewVersion(operationSystem, language);
+    atelo.coreFunction(operationSystem, language, firstTime: true);
   } catch (err) {
     Console.setTextColor(1);
     if (err.toString().contains("Could not resolve host")) {
