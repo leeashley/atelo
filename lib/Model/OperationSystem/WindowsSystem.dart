@@ -29,7 +29,6 @@ class WindowsSystem extends OperationSystem {
       stdoutRun = true;
     };
     Progress progress = loggerProgress.progress(startingText);
-    //await run('powershell.exe', ['\$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")', ';' , 'flutter doctor'], runInShell: false, includeParentEnvironment: true, verbose: verbose, stdout: null);
     await run('powershell.exe', ['\$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")', ';' , 'flutter doctor'], runInShell: false, includeParentEnvironment: true, verbose: verbose, stdout: stdoutRun ? stdout : null).then((result) async {
       progress.finish();
       await this.isCheckError(result, language);

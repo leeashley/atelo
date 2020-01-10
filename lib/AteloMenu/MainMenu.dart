@@ -1,6 +1,5 @@
 import 'package:atelo/Model/Language/BaseLanguage.dart';
 import 'package:cli_menu/cli_menu.dart';
-import "package:console/console.dart";
 
 class MainMenu {
 

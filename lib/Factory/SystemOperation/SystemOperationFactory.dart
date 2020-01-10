@@ -3,7 +3,6 @@ import 'package:atelo/Model/OperationSystem/MacSystem.dart';
 import 'package:atelo/Model/OperationSystem/OperationSystem.dart';
 import 'package:atelo/Model/OperationSystem/WindowsSystem.dart';
 import 'package:console/console.dart';
-
 import '../../Model/OperationSystem/LinuxSystem.dart';
 
 class SystemOperationFactory {
