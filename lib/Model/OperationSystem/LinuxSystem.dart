@@ -10,7 +10,7 @@ class LinuxSystem extends OperationSystem {
 
   @override
   Future<void> setEnvironmentVariable(BaseLanguage language) async{
-    ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.xprofile"]);
+    ProcessResult result = Process.runSync('bash', ['-c' , 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.xprofile" '&&' 'echo export PATH=\\"\\\$PATH:$currentPath/flutter/bin\\"' ">> \$HOME/.bashrc"]);
     await this.isCheckError(result, language);
     Console.setTextColor(2, bright: true);
     print(language.successfullyEnvironmentVariable);
